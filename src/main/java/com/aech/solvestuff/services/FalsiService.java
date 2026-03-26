@@ -1,6 +1,10 @@
 package com.aech.solvestuff.services;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -9,42 +13,40 @@ import com.aech.solvestuff.models.RootFindingReq;
 import com.aech.solvestuff.models.Step;
 
 @Service
-public class BisectionService {
-  public CommonResponse<Map<String, Object>> solve(RootFindingReq req) {
-    CommonResponse<Map<String, Object>> res = new CommonResponse<>();
-    double[] coeffs = req.getCoeff();
-    double a = req.getLowerB();
-    double b = req.getUpperB();
-    int maxIter = req.getIterConfig() != null ? req.getIterConfig().getMaxItrs() : 100;
-    double tol = req.getIterConfig() != null ? req.getIterConfig().getTol() : 1e-8;
+public class FalsiService {
+
+  public CommonResponse<Map<String, Object>> solve(RootFindingReq request) {
+    CommonResponse<Map<String, Object>> response = new CommonResponse<>();
+    double[] coeffs = request.getCoeff();
+    double a = request.getLowerB();
+    double b = request.getUpperB();
+    int maxIter = request.getIterConfig() != null ? request.getIterConfig().getMaxItrs() : 100;
+    double tol = request.getIterConfig() != null ? request.getIterConfig().getTol() : 1e-8;
     if (coeffs == null || coeffs.length == 0) {
-      res.setErr("Coefficients missing");
-      res.setMessage("Invalid input");
-      return res;
+      response.setErr("Coefficients missing");
+      response.setMessage("Invalid input");
+      return response;
     }
-
     if (a >= b) {
-      res.setErr("Lower bound must be less than upper bound");
-      res.setMessage("Invalid bounds");
-      return res;
+      response.setErr("Lower bound must be less than upper bound");
+      response.setMessage("Invalid bounds");
+      return response;
     }
-
-    boolean logSteps = req.getIterConfig() != null && req.getIterConfig().isSteps();
+    boolean logSteps = request.getIterConfig() != null && request.getIterConfig().isSteps();
     List<Step> steps = logSteps ? new ArrayList<>() : Collections.emptyList();
     double fa = evalPoly(coeffs, a);
     double fb = evalPoly(coeffs, b);
     if (fa * fb > 0) {
-      res.setErr("Function has same sign at both bounds");
-      res.setMessage("No root bracketed");
-      return res;
+      response.setErr("Function has same sign at both bounds");
+      response.setMessage("No root bracketed");
+      return response;
     }
-
     double root = Double.NaN;
     boolean converged = false;
     double prev = a;
     int iter = 0;
     for (; iter < maxIter; iter++) {
-      double mid = (a + b) / 2.0;
+      double mid = (a * fb - b * fa) / (fb - fa);
       double fmid = evalPoly(coeffs, mid);
       double error = Math.abs(mid - prev);
       if (logSteps) {
@@ -70,16 +72,16 @@ public class BisectionService {
     }
     Map<String, Object> result = new HashMap<>();
     result.put("root", root);
-    res.setRes(result);
-    res.setItrs(iter + 1);
-    res.setConverged(converged);
+    response.setRes(result);
+    response.setItrs(iter + 1);
+    response.setConverged(converged);
     if (logSteps) {
-      res.setSteps(steps);
+      response.setSteps(steps);
     }
-    res.setMessage(converged ? "Converged successfully" : "Did not converge");
+    response.setMessage(converged ? "Converged successfully" : "Did not converge");
     if (!converged)
-      res.setErr("Did not converge");
-    return res;
+      response.setErr("Did not converge");
+    return response;
   }
 
   private double evalPoly(double[] coeffs, double x) {

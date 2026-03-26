@@ -9,11 +9,12 @@ import org.junit.jupiter.api.Test;
 
 import com.aech.solvestuff.models.IterationConfig;
 import com.aech.solvestuff.models.RootFindingReq;
-import com.aech.solvestuff.services.BisectionService;
+import com.aech.solvestuff.services.FalsiService;
 
-public class BisectionTest {
+public class FalsiTest {
+
   @Test
-  void testStepsIncludedWhenRequested() {
+  void testStepsIncludedWhenRequest() {
     double[] coeffs = { 1, 0, -1, -2 };
     RootFindingReq req = new RootFindingReq();
     req.setCoeff(coeffs);
@@ -24,13 +25,13 @@ public class BisectionTest {
     config.setTol(1e-8);
     config.setSteps(true);
     req.setIterConfig(config);
-    BisectionService service = new BisectionService();
-    var res = service.solve(req);
-    assertNull(res.getErr());
-    assertTrue(res.isConverged());
-    assertNotNull(res.getSteps());
-    assertTrue(res.getSteps().size() > 0);
-    assertEquals(res.getItrs(), res.getSteps().size());
+    FalsiService service = new FalsiService();
+    var response = service.solve(req);
+    assertNull(response.getErr());
+    assertTrue(response.isConverged());
+    assertNotNull(response.getSteps());
+    assertTrue(response.getSteps().size() > 0);
+    assertEquals(response.getItrs(), response.getSteps().size());
   }
 
   @Test
@@ -45,11 +46,11 @@ public class BisectionTest {
     config.setTol(1e-8);
     config.setSteps(false);
     req.setIterConfig(config);
-    BisectionService service = new BisectionService();
-    var res = service.solve(req);
-    assertNull(res.getErr());
-    assertTrue(res.isConverged());
-    assertNull(res.getSteps());
+    FalsiService service = new FalsiService();
+    var response = service.solve(req);
+    assertNull(response.getErr());
+    assertTrue(response.isConverged());
+    assertNull(response.getSteps());
   }
 
   @Test
@@ -63,12 +64,12 @@ public class BisectionTest {
     config.setMaxItrs(100);
     config.setTol(1e-8);
     req.setIterConfig(config);
-    BisectionService service = new BisectionService();
-    var res = service.solve(req);
-    assertNull(res.getErr());
-    assertTrue(res.isConverged());
-    assertNotNull(res.getRes());
-    double root = (double) res.getRes().get("root");
+    FalsiService service = new FalsiService();
+    var response = service.solve(req);
+    assertNull(response.getErr());
+    assertTrue(response.isConverged());
+    assertNotNull(response.getRes());
+    double root = (double) response.getRes().get("root");
     assertEquals(1.521, root, 1e-3);
   }
 
@@ -80,9 +81,10 @@ public class BisectionTest {
     req.setLowerB(3);
     req.setUpperB(4);
     req.setIterConfig(new IterationConfig());
-    BisectionService service = new BisectionService();
-    var res = service.solve(req);
-    assertNotNull(res.getErr());
-    assertEquals("No root bracketed", res.getMessage());
+    FalsiService service = new FalsiService();
+    var response = service.solve(req);
+    assertNotNull(response.getErr());
+    assertEquals("No root bracketed", response.getMessage());
   }
+
 }

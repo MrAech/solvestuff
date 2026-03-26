@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aech.solvestuff.models.RootFindingReq;
-import com.aech.solvestuff.services.BisectionService;
+import com.aech.solvestuff.services.FalsiService;
 
 @RestController
-@RequestMapping("/bisection")
-public class BisectionController {
+@RequestMapping("/regula-falsi")
+public class FalsiController {
 
   @Autowired
-  private BisectionService service;
+  private FalsiService service;
 
   @PostMapping
   public ResponseEntity<?> solve(@RequestBody RootFindingReq req) {
