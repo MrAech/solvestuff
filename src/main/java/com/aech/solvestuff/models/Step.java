@@ -8,4 +8,6 @@ public class Step {
     private double[] x;
     private double err;
 
+    private double[] residual;
+    private double residualNorm;
 }
