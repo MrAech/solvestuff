@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aech.solvestuff.services.BisectionService;
 import com.aech.solvestuff.services.FalsiService;
 import com.aech.solvestuff.services.RapsonService;
+import com.aech.solvestuff.services.SecantService;
 import com.aech.solvestuff.models.CommonResponse;
 import com.aech.solvestuff.models.RootFindingReq;
+import com.aech.solvestuff.models.SecantReq;
 import com.aech.solvestuff.models.RapsonReq;
 
 @RestController
@@ -26,6 +28,9 @@ public class RootFindingController {
 
   @Autowired
   private RapsonService rapsonService;
+
+  @Autowired
+  private SecantService secantService;
 
   @PostMapping("/bisection")
   public ResponseEntity<?> solveBisection(@RequestBody RootFindingReq req) {
@@ -54,6 +59,16 @@ public class RootFindingController {
       return ResponseEntity.badRequest().body(res);
     }
 
+    return ResponseEntity.ok(res);
+  }
+
+  @PostMapping("/secant")
+  public ResponseEntity<?> solveSecant(@RequestBody SecantReq req) {
+    CommonResponse<?> res = secantService.solve(req);
+
+    if (res.getErr() != null) {
+      return ResponseEntity.badRequest().body(res);
+    }
     return ResponseEntity.ok(res);
   }
 
