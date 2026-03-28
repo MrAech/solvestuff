@@ -1,6 +1,5 @@
 
 # Gauss Elimination endpoint
-
 ```bash
 curl -X POST http://localhost:8080/direct/gauss-elimination \
   -H "Content-Type: application/json" \
@@ -10,7 +9,6 @@ curl -X POST http://localhost:8080/direct/gauss-elimination \
 
 
 # Gauss Jordan endpoint 
-
 ```bash 
 curl -X POST http://localhost:8080/direct/gauss-jordan \
   -H "Content-Type: application/json" \
@@ -18,14 +16,20 @@ curl -X POST http://localhost:8080/direct/gauss-jordan \
 ```
 
 
+# Jacobi endpoint
+```bash
+curl -X POST http://localhost:8080/api/linear/jacobi \
+  -H "Content-Type: application/json" \
+  -d '{"matrix": [[10,2],[1,5]], "vector": [7,6], "iterationConfig": {"tolerance": 1e-6, "maxIterations": 25}}' | jq
+```
+```
+```
 
 
-```
-```
-```
-```
 
-
-```
-```
+# Gauss-Seidel endpoint
+```bash
+curl -X POST http://localhost:8080/iterative/seidel \
+  -H "Content-Type: application/json" \
+  -d '{"matrix": [[10,2],[1,5]], "vector": [7,6], "iterationConfig": {"tolerance": 1e-6, "maxIterations": 25}}' | jq
 ```
