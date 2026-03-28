@@ -64,3 +64,20 @@ curl -X POST http://localhost:8080/root/secant \
   -H "Content-Type: application/json" \
   -d '{"coeff": [1,0,-2,-5], "x0": 1, "x1": 3, "iterConfig": {"tol": 1e-6, "maxItrs": 25, "steps": true }}' | jq
 ```
+
+
+
+# Lagrange endpoint
+```bash
+curl -X POST http://localhost:8080/interpol/lagrange \
+  -H "Content-Type: application/json" \
+  -d '{"x": [1,2,3] , "y": [2,5,10], "value": 2.5, "iterConfig": {"steps": true}}' | jq
+```
+
+
+# Newton Divided endpoint
+```bash
+curl -X POST http://localhost:8080/interpol/divided \
+  -H "Content-Type: application/json" \
+  -d '{"x": [1,2,3], "y": [2,5,10], "value": 2.5, "iterConfig":{"steps":true} }' | jq
+```
