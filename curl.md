@@ -18,9 +18,9 @@ curl -X POST http://localhost:8080/direct/gauss-jordan \
 
 # Jacobi endpoint
 ```bash
-curl -X POST http://localhost:8080/api/linear/jacobi \
+curl -X POST http://localhost:8080/iterative/jacobi \
   -H "Content-Type: application/json" \
-  -d '{"matrix": [[10,2],[1,5]], "vector": [7,6], "iterationConfig": {"tolerance": 1e-6, "maxIterations": 25}}' | jq
+  -d '{"matrix": [[10,2],[1,5]], "vector": [7,6], "itrConfig": {"tol": 1e-6, "maxItrs": 25, "steps": true}}' | jq
 ```
 ```
 ```
@@ -31,7 +31,7 @@ curl -X POST http://localhost:8080/api/linear/jacobi \
 ```bash
 curl -X POST http://localhost:8080/iterative/seidel \
   -H "Content-Type: application/json" \
-  -d '{"matrix": [[10,2],[1,5]], "vector": [7,6], "iterationConfig": {"tolerance": 1e-6, "maxIterations": 25}}' | jq
+  -d '{"matrix": [[10,2],[1,5]], "vector": [7,6], "itrConfig": {"tol": 1e-6, "maxItrs": 25, "steps": true}}' | jq
 ```
 
 
@@ -39,19 +39,28 @@ curl -X POST http://localhost:8080/iterative/seidel \
 ```bash
 curl -X POST http://localhost:8080/root/bisection \
   -H "Content-Type: application/json" \
-  -d '{"coefficients": [1,0,-2,-5], "lowerBound": 1, "upperBound": 3, "iterationConfig": {"tolerance": 1e-6, "maxIterations": 25}}' | jq
+  -d '{"coeff": [1,0,-2,-5], "lowerB": 1, "upperB": 3, "iterConfig": {"tol": 1e-6, "maxItrs": 25, "steps": true }}' | jq
 ```
 
 # Falsi endpoint
 ```bash
 curl -X POST http://localhost:8080/root/falsi \
   -H "Content-Type: application/json" \
-  -d '{"coefficients": [1,0,-2,-5], "lowerBound": 1, "upperBound": 3, "iterationConfig": {"tolerance": 1e-6, "maxIterations": 25}}' | jq
+  -d '{"coeff": [1,0,-2,-5], "lowerB": 1, "upperB": 3, "iterConfig": {"tol": 1e-6, "maxItrs": 25, "steps": true}}' | jq
 ```
 
 # Rapson endpoint
 ```bash
 curl -X POST http://localhost:8080/root/rapson \
   -H "Content-Type: application/json" \
-  -d '{"coefficients": [1,0,-2,-5], "initialGuess": 2, "iterationConfig": {"tolerance": 1e-6, "maxIterations": 25}}' | jq
+  -d '{"coeff": [1,0,-2,-5], "initialGuess": 2, "iterConfig": {"tol": 1e-6, "maxItrs": 25, "steps": true }}' | jq
+```
+
+
+
+# Secant endpoint 
+```bash
+curl -X POST http://localhost:8080/root/secant \
+  -H "Content-Type: application/json" \
+  -d '{"coeff": [1,0,-2,-5], "x0": 1, "x1": 3, "iterConfig": {"tol": 1e-6, "maxItrs": 25, "steps": true }}' | jq
 ```
