@@ -64,35 +64,7 @@ http://localhost:8080/swagger-ui.html
 
 ## Example Requests
 
-**Gauss Elimination**
-```bash
-curl -X POST http://localhost:8080/direct/gauss-elimination \
-  -H "Content-Type: application/json" \
-  -d '{"matrix": [[3,2],[1,2]], "vector": [5,3]}' | jq
-```
-
-**Jacobi**
-```bash
-curl -X POST http://localhost:8080/iterative/jacobi \
-  -H "Content-Type: application/json" \
-  -d '{"matrix": [[10,2],[1,5]], "vector": [7,6], "itrConfig": {"tol": 1e-6, "maxItrs": 25, "steps": true}}' | jq
-```
-
-**Bisection**
-```bash
-curl -X POST http://localhost:8080/root/bisection \
-  -H "Content-Type: application/json" \
-  -d '{"coeff": [1,0,-2,-5], "lowerB": 1, "upperB": 3, "iterConfig": {"tol": 1e-6, "maxItrs": 25, "steps": true}}' | jq
-```
-
-**Lagrange Interpolation**
-```bash
-curl -X POST http://localhost:8080/interpol/lagrange \
-  -H "Content-Type: application/json" \
-  -d '{"x": [1,2,3], "y": [2,5,10], "value": 2.5, "iterConfig": {"steps": true}}' | jq
-```
-
-See [`curl.md`](curl.md) for the full list of example requests.
+See [`curl.md`](curl.md) for the full list of `curl` commands covering every endpoint.
 
 ## Tech Stack
 
